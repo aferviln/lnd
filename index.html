@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Arena de Combate - Ciclo Superior ASIR</title>
+</head>
+<body>
+    <h1>1º ASIR - LENGUAJE DE MARCAS</h1>
+    <h2>🏆 ARENA DE COMBATE: SELECCIÓN 🏆</h2>
+    <p>Los luchadores aparecerán aquí conforme los alumnos se registren.</p>
+
+    <div id="contenedor-luchadores" style="display: flex; flex-wrap: wrap; gap: 20px;"></div>
+
+    <hr>
+
+    <div id="pantalla-combate" style="display:none; border: 5px solid black; padding: 20px;">
+        <h2>💥 ¡DUELO EN CURSO! 💥</h2>
+        <div style="display: flex; justify-content: space-around;">
+            <div id="visor-p1"></div>
+            <div id="log-combate" style="width: 300px; height: 200px; overflow-y: scroll; background: #eee; border: 1px solid #333; font-family: monospace;"></div>
+            <div id="visor-p2"></div>
+        </div>
+        <br>
+        <button onclick="location.reload()">Reiniciar Arena</button>
+    </div>
+
+    <script src="motor-logica.js"></script>
+</body>
+</html>

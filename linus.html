@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Personaje: Linus Torvalds Cyborg </title>
+    
+    <style>
+        /* Estilo básico provisional para que no se vea vacío */
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        .contenedor-ficha { max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; }
+        img { max-width: 100%; height: auto; border-radius: 8px; }
+        .stats { background: #f4f4f4; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-ficha">
+
+        <header>
+            <h1 id="nombre-luchador">Linus Torvalds Cyborg</h1>
+            
+            <p>Clase: <strong id="clase-personaje">Dios del Control de Versiones</strong></p>
+        </header>
+
+        <section>
+            <img id="imagen-luchador" src="linus.jpg" alt="Imagen del Luchador">
+        </section>
+
+        <section class="stats">
+            <h2>Atributos de Combate</h2>
+            <ul>
+                <li>Vida (HP): <span id="puntos-vida">40</span></li>
+                <li>Ataque (ATK): <span id="puntos-ataque">90</span></li>
+                <li>Velocidad (SPD): <span id="puntos-velocidad">20</span></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Biografía</h2>
+            <p id="historia-personaje">
+                Nacido del odio puro hacia los sistemas centralizados y el código espagueti. No necesito velocidad si tu código es tan malo que se borra solo. Se dice que puede detectar un conflicto de merge a tres kilómetros de distancia y que su mirada puede compilar un kernel de Linux en microsegundos. Si no te gusta su estilo, puedes hacer un <code>fork</code> de tu propia vida.
+            </p>
+            
+            <p><strong>Habilidad Especial:</strong> <span id="habilidad-nombre">Push of Mayhem</span></p>
+        </section>
+
+        <hr>
+
+       <footer style="margin-top: 20px; font-size: 0.85em; color: #555; line-height: 1.4;">
+            <h3>Metodología de Creación</h3>
+            
+            <p><strong>Concepto:</strong> Un guerrero legendario que lucha contra el caos del desarrollo colaborativo. Su arma es una terminal y su escudo es una licencia GPL.</p>
+            <p><strong>Herramientas de IA:</strong></p>
+            <ul>
+                <li>Generación de Imagen: <em>Foto real descargada de Internet</em></li>
+                <li>Generación de Historia: <em>Gemini</em></li>
+                <li>Edición de Código: <em>Visual Studio Code</em></li>
+            </ul>
+
+            <p><strong>Prompt de Imagen:</strong> 
+                <code style="background: #eee; padding: 2px 5px; border-radius: 4px;">
+                    "Imagen descargada de Internet"
+                </code>
+            </p>
+
+            <p><strong>Prompt de Historia:</strong> 
+                <code style="background: #eee; padding: 2px 5px; border-radius: 4px;">
+                    "Redacta unas frases sobre este personaje que sea el creador de Git. Con un tono divertido y algo de ironía."
+                </code>
+            </p>
+            
+            <p><strong>Autor:</strong> Aurelio</p>
+            <p><strong>Usuario Github:</strong> aferviln</p>
+        </footer>
+
+    </div>
+</body>
+</html>
