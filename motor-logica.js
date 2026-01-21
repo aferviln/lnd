@@ -1,54 +1,80 @@
-// 1. FUNCIÓN PARA LEER LA LISTA DE PARTICIPANTES DESDE EL TXT
-async function obtenerNombresDesdeArchivo() {
-    try {
-        const respuesta = await fetch('participantes.txt');
-        const texto = await respuesta.text();
-        
-        // Convertimos el texto en un Array, eliminando espacios y líneas vacías
-        const nombres = texto.split('\n')
-                             .map(nombre => nombre.trim())
-                             .filter(nombre => nombre !== "");
-        
-        return nombres;
-    } catch (error) {
-        console.error("Error leyendo participantes.txt:", error);
-        return [];
-    }
-}
-
-// 2. FUNCIÓN PRINCIPAL QUE MONTA LA ARENA
 async function cargarLuchadores() {
     const contenedor = document.getElementById('contenedor-luchadores');
-    const nombresAlumnos = await obtenerNombresDesdeArchivo(); // <-- Aquí lee el TXT
+    
+    try {
+        const respuestaTxt = await fetch('participantes.txt');
+        const lista = await respuestaTxt.text();
+        const nombres = lista.split('\n').map(n => n.trim()).filter(n => n !== "");
 
-    for (let nombreArchivo of nombresAlumnos) {
-        try {
-            const respuesta = await fetch(`${nombreArchivo}.html`);
-            if (!respuesta.ok) throw new Error("Archivo no encontrado");
-            
-            const htmlTexto = await respuesta.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlTexto, 'text/html');
+        for (let archivo of nombres) {
+            try {
+                const resHtml = await fetch(`${archivo}.html`);
+                const html = await resHtml.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
 
-            // Extraemos datos (usando los IDs que ellos deben respetar)
-            const nombre = doc.getElementById('nombre-luchador').innerText;
-            const vida = doc.getElementById('puntos-vida').innerText;
-            const ataque = doc.getElementById('puntos-ataque').innerText;
-            const velocidad = doc.getElementById('puntos-velocidad').innerText;
-            const imagen = doc.getElementById('imagen-luchador').getAttribute('src');
+                // Extraer datos por ID
+                const nombre = doc.getElementById('nombre-luchador').innerText;
+                const hp = doc.getElementById('puntos-vida').innerText;
+                const atk = doc.getElementById('puntos-ataque').innerText;
+                const spd = doc.getElementById('puntos-velocidad').innerText;
+                const img = doc.getElementById('imagen-luchador').src;
 
-            contenedor.innerHTML += `
-                <div class="tarjeta-miniatura" onclick="preparar('${nombre}', ${vida}, ${ataque}, ${velocidad}, '${imagen}')">
-                    <img src="${imagen}" alt="${nombre}">
-                    <h3>${nombre}</h3>
-                    <p>HP: ${vida} | ATK: ${ataque} | SPD: ${velocidad}</p>
-                </div>
-            `;
-        } catch (e) {
-            console.warn(`No se pudo cargar el luchador "${nombreArchivo}":`, e.message);
+                // Crear miniatura
+                contenedor.innerHTML += `
+                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                        <img src="${img}" width="100"><br>
+                        <strong>${nombre}</strong><br>
+                        <button onclick="seleccionar('${nombre}', ${hp}, ${atk}, ${spd}, '${img}')">Seleccionar</button>
+                    </div>`;
+            } catch (err) { console.error("No se pudo cargar: " + archivo); }
         }
-    }
+    } catch (e) { console.error("Error al leer participantes.txt"); }
 }
 
-// Iniciar la carga al abrir la página
+let seleccionados = [];
+
+function seleccionar(n, h, a, s, i) {
+    if (seleccionados.length < 2) {
+        seleccionados.push({ nombre: n, hp: parseInt(h), atk: parseInt(a), spd: parseInt(s), img: i });
+        console.log("Seleccionado: " + n);
+    }
+    if (seleccionados.length === 2) iniciarCombate();
+}
+
+function iniciarCombate() {
+    document.getElementById('pantalla-combate').style.display = 'block';
+    const log = document.getElementById('log-combate');
+    let p1 = seleccionados[0];
+    let p2 = seleccionados[1];
+
+    document.getElementById('visor-p1').innerHTML = `<img src="${p1.img}" width="150"><h3>${p1.nombre}</h3><p>HP: <span id="hp1">${p1.hp}</span></p>`;
+    document.getElementById('visor-p2').innerHTML = `<img src="${p2.img}" width="150"><h3>${p2.nombre}</h3><p>HP: <span id="hp2">${p2.hp}</span></p>`;
+
+    let pelea = setInterval(() => {
+        // Ataque P1
+        let dmg1 = Math.max(5, p1.atk - Math.floor(p2.spd / 4));
+        p2.hp -= dmg1;
+        document.getElementById('hp2').innerText = Math.max(0, p2.hp);
+        log.innerHTML += `${p1.nombre} ataca: -${dmg1} HP<br>`;
+
+        if (p2.hp <= 0) {
+            log.innerHTML += `<strong>🏆 GANA ${p1.nombre}</strong>`;
+            clearInterval(pelea); return;
+        }
+
+        // Ataque P2
+        let dmg2 = Math.max(5, p2.atk - Math.floor(p1.spd / 4));
+        p1.hp -= dmg2;
+        document.getElementById('hp1').innerText = Math.max(0, p1.hp);
+        log.innerHTML += `${p2.nombre} ataca: -${dmg2} HP<br>`;
+
+        if (p1.hp <= 0) {
+            log.innerHTML += `<strong>🏆 GANA ${p2.nombre}</strong>`;
+            clearInterval(pelea);
+        }
+        log.scrollTop = log.scrollHeight;
+    }, 1000);
+}
+
 cargarLuchadores();
