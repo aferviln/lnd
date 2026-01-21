@@ -24,7 +24,8 @@ async function cargarLuchadores() {
                 contenedor.innerHTML += `
                     <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
                         <img src="${img}" width="100"><br>
-                        <strong>${nombre}</strong><br>
+                        <h3>${nombre}</h3><br>
+                        <p>HP: ${vida} | ATK: ${ataque} | SPD: ${velocidad}</p>
                         <button onclick="seleccionar('${nombre}', ${hp}, ${atk}, ${spd}, '${img}')">Seleccionar</button>
                     </div>`;
             } catch (err) { console.error("No se pudo cargar: " + archivo); }
