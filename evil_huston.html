@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Personaje: [Nombre del personaje] </title>
+    
+    <style>
+        /* Estilo básico provisional para que no se vea vacío */
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        .contenedor-ficha { max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; }
+        img { max-width: 100%; height: auto; border-radius: 8px; }
+        .stats { background: #f4f4f4; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-ficha">
+
+        <header>
+            <h1 id="nombre-luchador">Evil Huston</h1>
+            
+            <p>Clase: <strong id="clase-personaje">Evil Cowboy</strong></p>
+        </header>
+
+        <section>
+            <img id="imagen-luchador" src="evil_huston.png" alt="Imagen del Luchador">
+        </section>
+
+        <section class="stats">
+            <h2>Atributos de Combate</h2>
+            <ul>
+                <li>Vida (HP): <span id="puntos-vida">91</span></li>
+                <li>Ataque (ATK): <span id="puntos-ataque">59</span></li>
+                <li>Velocidad (SPD): <span id="puntos-velocidad">0</span></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Biografía</h2>
+            <p id="historia-personaje">
+                El hermano gemelo malévolo de Huston. Su comida favorita es el pistacho.
+            </p>
+            
+            <p><strong>Habilidad Especial:</strong> <span id="habilidad-nombre">Pedazo barril de dinamita.</span></p>
+        </section>
+
+        <hr>
+
+       <footer style="margin-top: 20px; font-size: 0.85em; color: #555; line-height: 1.4;">
+            <h3>Metodología de Creación</h3>
+            
+            <p>Me apetecía hacer un segundo personaje.</p>
+            <p><strong>Autor:</strong> Evil Diego Rodríguez Medina</p>
+            <p><strong>Usuario Github:</strong> DietermiGamzD125</p>
+        </footer>
+
+    </div>
+</body>
+</html>
