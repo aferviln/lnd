@@ -8,3 +8,4 @@ putin
 skarner
 sonic
 maduro
+patica
