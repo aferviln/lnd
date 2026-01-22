@@ -40,8 +40,8 @@ async function cargarLuchadores() {
 
         // Crear ficha para seleccionar
         const fichaHTML = `
-          <div style="border:1px solid #444; padding:10px; width:180px; text-align:center;">
-            <img src="${img}" alt="${nombre}" style="width: 100%; height: 150px; object-fit: contain; border-radius:8px;">
+          <div style="border:1px solid #444; padding:10px; width:150px; text-align:center;">
+            <img src="${img}" alt="${nombre}" style="width: 100%; height: 150px; object-fit: cover; border-radius:8px;">
             <strong>${nombre}</strong><br>
             HP:${hp} ATK:${atk} SPD:${spd}<br>
             <button onclick="seleccionar('${nombre}', ${hp}, ${atk}, ${spd}, '${img}')">Seleccionar</button>
@@ -100,7 +100,7 @@ function iniciarCombate() {
 function crearVisor(p, n) {
   return `
     <h3>${p.nombre}</h3>
-    <img src="${p.img}" style="width: 150px; height: 150px; object-fit: contain; border-radius: 8px;"><br>
+    <img src="${p.img}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;"><br>
     <div class="barra">
       <div id="vida${n}" class="vida"></div>
     </div>
