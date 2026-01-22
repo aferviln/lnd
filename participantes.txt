@@ -6,3 +6,5 @@ huston
 aldren
 putin
 skarner
+sonic
+maduro
