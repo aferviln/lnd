@@ -7,6 +7,11 @@ aldren
 putin
 skarner
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+sonic
+maduro
+>>>>>>> 5da56ee9f4b7080c5def0dcf5ab93174556f19a4
 =======
 sonic
 maduro
