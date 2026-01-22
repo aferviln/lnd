@@ -1,0 +1,10 @@
+# Bloquear historiales de Git accidentales en subcarpetas
+**/.git/
+**/.git
+
+# Bloquear basura del sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
