@@ -2,28 +2,109 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Arena de Combate - Ciclo Superior ASIR</title>
+    <title>Arena de Combate - ASIR</title>
+    <style>
+        body {
+            margin: 0;
+            background: #111;
+            color: #fff;
+            text-align: center;
+            font-family: "Fuente", sans-serif;
+            font-size: 10px;
+            background-image: url('ring.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+
+        #contenedor-luchadores {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        #pantalla-combate {
+            display: none;
+            border: 5px solid black;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        #arena-combate {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        #visor-p1, #visor-p2 {
+            width: 25%;
+            text-align: center;
+        }
+
+        #log-combate {
+            width: 40%;
+            height: 220px;
+            overflow-y: auto;
+            background: #eee;
+            color: #000;
+            border: 1px solid #333;
+            font-family: monospace;
+            padding: 8px;
+        }
+
+        .barra {
+            width: 150px;
+            height: 16px;
+            background: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 6px auto;
+        }
+
+        .vida {
+            height: 100%;
+            width: 100%;
+            background: limegreen;
+            transition: width 0.3s;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 6px 12px;
+            margin-top: 10px;
+        }
+        @font-face {
+            font-family: "Fuente";
+            src: url("fuente.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+}
+
+    </style>
 </head>
+
 <body>
-    <h1>1º ASIR - LENGUAJE DE MARCAS</h1>
-    <h2>🏆 ARENA DE COMBATE: SELECCIÓN 🏆</h2>
-    <p>Los luchadores aparecerán aquí conforme los alumnos se registren.</p>
 
-    <div id="contenedor-luchadores" style="display: flex; flex-wrap: wrap; gap: 20px;"></div>
+<h1>1º ASIR - LENGUAJE DE MARCAS</h1>
+<h2>🏆 ARENA DE COMBATE 🏆</h2>
 
-    <hr>
+<div id="contenedor-luchadores"></div>
 
-    <div id="pantalla-combate" style="display:none; border: 5px solid black; padding: 20px;">
-        <h2>💥 ¡DUELO EN CURSO! 💥</h2>
-        <div style="display: flex; justify-content: space-around;">
-            <div id="visor-p1"></div>
-            <div id="log-combate" style="width: 300px; height: 200px; overflow-y: scroll; background: #eee; border: 1px solid #333; font-family: monospace;"></div>
-            <div id="visor-p2"></div>
-        </div>
-        <br>
-        <button onclick="location.reload()">Reiniciar Arena</button>
+<div id="pantalla-combate">
+    <h2>💥 ¡DUELO EN CURSO! 💥</h2>
+
+    <div id="arena-combate">
+        <div id="visor-p1"></div>
+        <div id="log-combate"></div>
+        <div id="visor-p2"></div>
     </div>
 
-    <script src="motor-logica.js"></script>
+    <button onclick="reiniciar()">🔄 Reiniciar combate</button>
+</div>
+
+<!-- ✅ ÚNICO SCRIPT, EXTERNO -->
+<script src="motor-logica.js"></script>
+
 </body>
 </html>
