@@ -22,7 +22,7 @@ async function cargarLuchadores() {
 
                 // Crear miniatura
                 contenedor.innerHTML += `
-                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+                    <div style="border: 1px solid #ccc; padding: 10px; text-align: center; width: 150px;">
                         <a href="${archivo}.html" target="_blank" title="Ver ficha técnica">
                             <img src="${img}" alt="${nombre}" style="width: 100%; height: 150px; object-fit: cover; cursor: zoom-in;">
                         </a><br>
