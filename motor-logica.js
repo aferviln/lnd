@@ -40,13 +40,15 @@ async function cargarLuchadores() {
 
         // Crear ficha para seleccionar
         const fichaHTML = `
-          <div style="border:1px solid #444; padding:10px; width:150px; text-align:center;">
-            <img src="${img}" alt="${nombre}" style="width: 100%; height: 150px; object-fit: cover; border-radius:8px;">
-            <strong>${nombre}</strong><br>
-            HP:${hp} ATK:${atk} SPD:${spd}<br>
-            <button onclick="seleccionar('${nombre}', ${hp}, ${atk}, ${spd}, '${img}')">Seleccionar</button>
-          </div>
+         <div style="background:rgba(0, 0, 0, 0.5); border:1px solid #444; padding:10px; width:150px; text-align:center; border-radius:10px;">
+          <img src="${img}" alt="${nombre}" style="width: 100%; height: 150px; object-fit: cover; border-radius:8px; cursor:pointer;">
+          <strong style="display:block; margin-top:10px;">${nombre}</strong><br>
+          HP:${hp} ATK:${atk} SPD:${spd}<br>
+          <button onclick="seleccionar('${nombre}', ${hp}, ${atk}, ${spd}, '${img}')">Seleccionar</button>
+          <button onclick="window.open('${nombreArchivo}.html', '_blank')">Ver ficha técnica</button>
+         </div>
         `;
+
 
         contenedor.innerHTML += fichaHTML;
 
@@ -99,12 +101,14 @@ function iniciarCombate() {
 // =========================
 function crearVisor(p, n) {
   return `
-    <h3>${p.nombre}</h3>
-    <img src="${p.img}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;"><br>
-    <div class="barra">
-      <div id="vida${n}" class="vida"></div>
+    <div style="background:rgba(0, 0, 0, 0.5); border-radius:10px; padding:10px;">
+      <h3>${p.nombre}</h3>
+      <img src="${p.img}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;"><br>
+      <div class="barra">
+        <div id="vida${n}" class="vida"></div>
+      </div>
+      <p>HP: <span id="hp${n}">${p.hp}</span></p>
     </div>
-    <p>HP: <span id="hp${n}">${p.hp}</span></p>
   `;
 }
 
