@@ -78,6 +78,9 @@ function iniciarCombate() {
   pantalla.style.display = 'block';
   log.innerHTML = '';
 
+  // Ordenar por velocidad
+  seleccionados.sort((a, b) => b.spd - a.spd);
+
   const [p1, p2] = seleccionados;
 
   visor1.innerHTML = crearVisor(p1, 1);
