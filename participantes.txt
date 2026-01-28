@@ -9,3 +9,5 @@ skarner
 sonic
 maduro
 patica
+bob-marley
+alex
