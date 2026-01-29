@@ -119,7 +119,7 @@ function crearVisor(p, n) {
 // ATAQUE
 // =========================
 function atacar(a, d, n) {
-  const dmg = Math.max(5, a.atk - Math.floor(d.spd / 4));
+  const dmg = Math.max(5, a.atk + Math.floor(d.spd / 4));
   d.hp -= dmg;
   document.getElementById(`hp${n}`).innerText = Math.max(0, d.hp);
   actualizarBarra(d, n);
