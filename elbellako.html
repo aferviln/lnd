@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Personaje: El Bellako</title>
+    
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; line-height: 1.6; background-color: #1a1a1a; color: #e0e0e0; }
+        .contenedor-ficha { max-width: 600px; margin: auto; border: 2px solid #333; padding: 25px; background-color: #262626; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: #00ffcc; text-transform: uppercase; letter-spacing: 2px; text-align: center; }
+        h2 { border-bottom: 2px solid #00ffcc; display: inline-block; padding-bottom: 5px; color: #00ffcc; }
+        img { max-width: 100%; height: auto; border-radius: 8px; border: 2px solid #444; margin-bottom: 15px; }
+        .stats { background: #333; padding: 15px; border-radius: 8px; border-left: 5px solid #00ffcc; }
+        .stats ul { list-style: none; padding: 0; }
+        .stats li { font-size: 1.1em; margin-bottom: 5px; }
+        .stats span { font-weight: bold; color: #fff; }
+        hr { border: 0; border-top: 1px solid #444; margin: 20px 0; }
+        footer { font-size: 0.85em; color: #aaa; }
+        code { background: #444; padding: 2px 5px; border-radius: 4px; color: #00ffcc; }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-ficha">
+
+        <header>
+            <h1 id="nombre-luchador">El Bellako</h1>
+            <p style="text-align: center;">Clase: <strong id="clase-personaje">Mitad Mago / Cyborg</strong></p>
+        </header>
+
+        <section style="text-align: center;">
+            
+<img id="imagen-luchador" src="elbellako.jpg"
+ alt="El Bellako - Mago Cyborg">
+        </section>
+
+        <section class="stats">
+            <h2>Atributos de Combate</h2>
+            <ul>
+                <li>Vida (HP): <span id="puntos-vida">50</span></li>
+                <li>Ataque (ATK): <span id="puntos-ataque">75</span></li>
+                <li>Velocidad (SPD): <span id="puntos-velocidad">25</span></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Biografía</h2>
+            <p id="historia-personaje">
+                En las profundidades de la Neometrópolis de Aztlán, surgió una leyenda conocida como <strong>El Bellako</strong>. Originalmente un alto hechicero de las artes rúnicas, fue traicionado por su propio gremio y dado por muerto tras una explosión de energía arcana. Para sobrevivir, tuvo que fusionar su cuerpo destrozado con prótesis cibernéticas de tecnología prohibida.
+                <br><br>
+                Hoy, El Bellako es un tanque de asalto viviente. Aunque su cuerpo mecánico es pesado y lento (reduciendo su velocidad notablemente), sus circuitos están alimentados por maná puro, lo que le permite lanzar ataques devastadores que mezclan fuego mágico con fuerza hidráulica. No busca redención, solo que el mundo tiemble bajo el peso de sus pasos metálicos.
+            </p>
+            
+            <p><strong>Habilidad Especial:</strong> <span id="habilidad-nombre">Sobrecarga Arcana-Crítica</span></p>
+        </section>
+
+        <hr>
+
+        <footer>
+            <h3>Metodología de Creación</h3>
+            
+            <p><strong>Concepto:</strong> Un híbrido que rompe los esquemas tradicionales, uniendo el misticismo antiguo con la frialdad de la máquina.</p>
+
+            <p><strong>Herramientas de IA:</strong></p>
+            <ul>
+                <li>Generación de Imagen: <em>Leonardo.ai (Modelo: XL) / Gemini (Google)</em></li>
+                <li>Generación de Historia: <em>Gemini (Google)</em></li>
+                <li>Edición de Código: <em>Visual Studio Code</em></li>
+            </ul>
+
+            <p><strong>Prompt de Imagen:</strong> 
+                <code>
+                    "Cinematic portrait of a futuristic sorcerer cyborg, glowing neon runes on metallic arms, urban cyberpunk background, aggressive stance, high detail, 8k"
+                </code>
+            </p>
+
+            <p><strong>Prompt de Historia:</strong> 
+                <code>
+                    "Crea una historia para un personaje llamado El Bellako, que es mitad mago y mitad cyborg, explicando por qué tiene mucho ataque pero poca velocidad."
+                </code>
+            </p>
+            
+            <p><strong>Autor:</strong> Aless</p>
+            <p><strong>Usuario Github:</strong> alemerr</p>
+        </footer>
+
+    </div>
+</body>
+</html>
+
+
