@@ -1,0 +1,300 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #111;
+    color: #fff;
+    text-align: center;
+    font-family: "Fuente", sans-serif;
+    font-size: 10px;
+    background-image: url('../images/ui/ring.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+/* GRID DE LUCHADORES: Layout flexible que se adapta al tamaño de pantalla */
+#contenedor-luchadores {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.tarjeta-luchador {
+    width: calc(50% - 15px);
+    /* 2 per row on mobile */
+    min-width: 140px;
+    max-width: 180px;
+}
+
+#vista-ficha {
+    display: none;
+    max-width: 800px;
+    width: 95%;
+    /* Responsive width */
+    margin: 20px auto;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+#pantalla-combate {
+    display: none;
+    max-width: 1000px;
+    /* Ensanchado para layout horizontal */
+    margin: 40px auto;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #555;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+}
+
+#arena-combate {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    /* Forzar misma línea */
+    gap: 20px;
+}
+
+#visor-p1,
+#visor-p2 {
+    width: 100%;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #444;
+    text-align: center;
+}
+
+#log-combate {
+    width: 100%;
+    /* Full width on mobile */
+    max-width: 400px;
+    height: 180px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.5);
+    color: #0f0;
+    /* Matrix/Retro style for log */
+    border: 1px solid #444;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.barra {
+    width: 150px;
+    height: 16px;
+    background: #333;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 6px auto;
+}
+
+.vida {
+    height: 100%;
+    width: 100%;
+    background: limegreen;
+    transition: width 0.3s;
+}
+
+button,
+.btn-arcade {
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #ff8c00 0%, #ff4500 100%);
+    color: white;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 3px #b22222, 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: all 0.1s ease;
+    outline: none;
+    display: inline-block;
+}
+
+button:hover,
+.btn-arcade:hover {
+    background: linear-gradient(135deg, #ffa500 0%, #ff6347 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px #b22222, 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+button:active,
+.btn-arcade:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px #b22222, 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #555 0%, #333 100%);
+    box-shadow: 0 3px #222, 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #666 0%, #444 100%);
+    box-shadow: 0 4px #222, 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.btn-secondary:active {
+    box-shadow: 0 1px #222, 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* FEEDBACK DE SELECCIÓN: Estética verde para confirmar elección */
+.btn-selected {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%) !important;
+    box-shadow: 0 2px #155724 !important;
+    cursor: default;
+    pointer-events: none;
+}
+
+
+/* Responsiveness Media Queries */
+
+/* Medium Screens (Tablets, small laptops) */
+@media (min-width: 600px) {
+    .tarjeta-luchador {
+        width: calc(25% - 20px);
+        /* 4 per row */
+    }
+
+    #contenedor-luchadores {
+        gap: 20px;
+    }
+}
+
+/* Large Screens */
+@media (min-width: 900px) {
+    .tarjeta-luchador {
+        width: calc(16.66% - 20px);
+        /* 6 per row */
+    }
+
+    #visor-p1,
+    #visor-p2 {
+        flex: 0 0 200px;
+        /* Fixed width to prevent shrinking too much */
+    }
+
+    #log-combate {
+        flex: 1;
+        /* Log takes remaining space */
+        max-width: 450px;
+        height: 300px;
+    }
+}
+
+/* Extra Large Screens */
+@media (min-width: 1200px) {
+    .tarjeta-luchador {
+        width: calc(14.28% - 20px);
+        /* 7 per row */
+    }
+}
+
+.btn-small {
+    padding: 3px 6px;
+    font-size: 8px;
+    width: 95%;
+}
+
+/* --- Combat Animations --- */
+
+/* Hit: Simple Shake and Red Flash */
+@keyframes golpe {
+    0% {
+        transform: translateX(0);
+        filter: brightness(1);
+    }
+
+    25% {
+        transform: translateX(-15px);
+        filter: brightness(1.2) sepia(1) saturate(5) hue-rotate(-50deg);
+    }
+
+    50% {
+        transform: translateX(15px);
+        filter: brightness(1.2) sepia(1) saturate(5) hue-rotate(-50deg);
+    }
+
+    75% {
+        transform: translateX(-15px);
+        filter: brightness(1.2) sepia(1) saturate(5) hue-rotate(-50deg);
+    }
+
+    100% {
+        transform: translateX(0);
+        filter: brightness(1);
+    }
+}
+
+/* Attack: Short Lunge */
+@keyframes ataque-p1 {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(30px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes ataque-p2 {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-30px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.animacion-golpe {
+    animation: golpe 0.8s ease-in-out;
+}
+
+.animacion-ataque-p1 {
+    animation: ataque-p1 0.8s ease-in-out;
+}
+
+.animacion-ataque-p2 {
+    animation: ataque-p2 0.8s ease-in-out;
+}
+
+
+@font-face {
+    font-family: "Fuente";
+    src: url("../fonts/fuente.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}

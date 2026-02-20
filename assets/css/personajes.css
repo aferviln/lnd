@@ -1,0 +1,191 @@
+body {
+    padding: 20px;
+    line-height: 1.6;
+    color: #eee;
+}
+
+/* PALETA DE COLORES: Colores (Oro/Naranja) para todas las fichas */
+h1 {
+    color: #ffcc00;
+    margin-bottom: 5px;
+    font-size: 2.5em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h2,
+h3 {
+    color: #ffa500;
+    margin-top: 15px;
+}
+
+strong {
+    color: #ffd700;
+}
+
+p {
+    color: #ddd;
+}
+
+hr {
+    display: none;
+}
+
+/* LAYOUT DE FICHA: Grid con áreas definidas para centrar y organizar contenido */
+.contenedor-ficha {
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid #444;
+    padding: 20px;
+    background: transparent;
+    color: #eee;
+    border-radius: 12px;
+    box-shadow: none;
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "stats stats"
+        "image bio"
+        "footer footer";
+    gap: 20px;
+}
+
+header {
+    grid-area: header;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+#clase-personaje {
+    color: #fff;
+    font-size: 1.2em;
+}
+
+.stats {
+    grid-area: stats;
+    display: flex;
+    justify-content: space-around;
+    background: #222 !important;
+    color: #fff;
+    border-radius: 8px;
+    padding: 15px !important;
+}
+
+.stats h2 {
+    display: none;
+}
+
+/* Hide the internal H2 to keep it clean */
+.stats ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+}
+
+.stats li {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.stats span {
+    color: #00ffcc;
+    /* Cyan/Teal for numeric values */
+    font-size: 1.2em;
+}
+
+#historia-personaje {
+    font-style: italic;
+    margin-top: 10px;
+    line-height: 1.7;
+}
+
+#habilidad-nombre {
+    color: #00ffcc;
+    font-weight: bold;
+}
+
+section:has(img) {
+    grid-area: image;
+}
+
+/* BLOQUE DE BIOGRAFÍA: Cuadro con fondo transparente RGBA y bordes redondeados */
+section:has(#historia-personaje) {
+    grid-area: bio;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+section:has(#historia-personaje) h2 {
+    margin-top: 0;
+    font-size: 1.4em;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* BLOQUE DE METODOLOGÍA: Sincronizado estéticamente con la biografía */
+footer {
+    grid-area: footer;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 0.9em !important;
+    color: #888 !important;
+    line-height: 1.5 !important;
+}
+
+footer h3 {
+    margin-top: 0;
+    color: #ffd700;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    border-bottom: 1px solid #444;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+footer strong {
+    color: #aaa;
+}
+
+footer code {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ccc !important;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Mobile adaptation */
+@media (max-width: 650px) {
+    .contenedor-ficha {
+        grid-template-areas:
+            "header"
+            "stats"
+            "image"
+            "bio"
+            "footer";
+        grid-template-columns: 1fr;
+    }
+
+    .stats ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+img {
+    width: 100%;
+    max-width: 300px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    margin: auto;
+    border: 3px solid #444;
+}

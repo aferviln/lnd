@@ -1,5 +1,6 @@
 // Contenedores del DOM
 const contenedor = document.getElementById('contenedor-luchadores');
+const vistaFicha = document.getElementById('vista-ficha');
 const pantalla = document.getElementById('pantalla-combate');
 const log = document.getElementById('log-combate');
 const visor1 = document.getElementById('visor-p1');
@@ -9,14 +10,47 @@ let seleccionados = [];
 let pelea = null;
 
 // =========================
-// CARGAR LUCHADORES DESDE PARTICIPANTES.TXT
+// ROUTER & NAVEGACIÓN
+// =========================
+// Maneja el filtrado de vistas (Home, Ficha, Combate) sin recargar la página
+window.addEventListener('hashchange', handleRoute);
+window.addEventListener('load', handleRoute);
+
+function handleRoute() {
+  const hash = window.location.hash;
+
+  // Ocultar todo
+  contenedor.style.display = 'none';
+  vistaFicha.style.display = 'none';
+  pantalla.style.display = 'none';
+
+  if (hash.startsWith('#ficha/')) {
+    const nombre = decodeURIComponent(hash.split('/')[1]);
+    mostrarFicha(nombre);
+  } else if (hash === '#combate') {
+    if (seleccionados.length === 2) {
+      pantalla.style.display = 'block';
+    } else {
+      window.location.hash = '';
+    }
+  } else {
+    // Ruta por defecto (home)
+    contenedor.style.display = 'flex';
+    if (contenedor.innerHTML === '') {
+      cargarLuchadores();
+    }
+  }
+}
+
+// =========================
+// CARGAR LUCHADORES
 // =========================
 async function cargarLuchadores() {
+  contenedor.innerHTML = '';
   try {
-    const res = await fetch('participantes.txt');
+    const res = await fetch('participantes.txt?v=' + Date.now());
     const txt = await res.text();
 
-    // Lista de nombres, ignorando index y líneas vacías
     const nombresLuchadores = txt
       .split('\n')
       .map(line => line.trim())
@@ -24,31 +58,45 @@ async function cargarLuchadores() {
 
     for (const nombreArchivo of nombresLuchadores) {
       try {
-        const resHtml = await fetch(`${nombreArchivo}.html`);
+        const resHtml = await fetch(`personajes/${nombreArchivo}.html?v=` + Date.now());
         const htmlText = await resHtml.text();
 
-        // Parsear el HTML
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlText, 'text/html');
 
-        // Extraer datos por IDs
         const nombre = doc.getElementById('nombre-luchador')?.innerText.trim() || 'Sin Nombre';
         const hp = parseInt(doc.getElementById('puntos-vida')?.innerText.trim()) || 0;
         const atk = parseInt(doc.getElementById('puntos-ataque')?.innerText.trim()) || 0;
         const spd = parseInt(doc.getElementById('puntos-velocidad')?.innerText.trim()) || 0;
-        const img = doc.getElementById('imagen-luchador')?.src || '';
 
-        // Crear ficha para seleccionar
+        let img = doc.getElementById('imagen-luchador')?.getAttribute('src') || '';
+
+        // CORRECCIÓN DE RUTAS: Redirige a los assets optimizados (respetando extensiones específicas)
+        const originalFileName = img.split('/').pop();
+        let fileName = originalFileName;
+
+        if (fileName.toLowerCase().endsWith('.png')) {
+          const base = fileName.split('.')[0].toLowerCase();
+          if (base !== 'arbol' && base !== 'huston') {
+            fileName = fileName.replace(/\.png$/i, '.jpg');
+          }
+        }
+        img = `assets/images/characters/${fileName}`;
+
+        // GENERACIÓN DE TARJETAS: Layout responsivo y centrado
         const fichaHTML = `
-         <div style="background:rgba(0, 0, 0, 0.5); border:1px solid #444; padding:10px; width:150px; text-align:center; border-radius:10px;">
-          <img src="${img}" alt="${nombre}" style="width: 100%; height: 150px; object-fit: cover; border-radius:8px; cursor:pointer;">
-          <strong style="display:block; margin-top:10px;">${nombre}</strong><br>
-          HP:${hp} ATK:${atk} SPD:${spd}<br>
-          <button onclick="seleccionar('${nombre}', ${hp}, ${atk}, ${spd}, '${img}')">Seleccionar</button>
-          <button onclick="window.open('${nombreArchivo}.html', '_blank')">Ver ficha técnica</button>
-         </div>
+          <div class="tarjeta-luchador" style="background:rgba(0, 0, 0, 0.5); border:1px solid #444; padding:10px; text-align:center; border-radius:10px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <img src="${img}" alt="${nombre}" style="width: 100%; height: 120px; object-fit: cover; border-radius:8px; cursor:pointer;" onclick="verFicha('${nombreArchivo}')">
+              <strong style="display:block; margin-top:8px; font-size: 1.1em;">${nombre}</strong>
+              <div style="font-size: 0.85em; margin: 5px 0;">HP:${hp} ATK:${atk} SPD:${spd}</div>
+            </div>
+            <div>
+              <button class="btn-arcade btn-small" onclick="seleccionar('${nombre}', ${hp}, ${atk}, ${spd}, '${img}', this)" style="width: 100%;">Seleccionar</button>
+              <button class="btn-arcade btn-secondary btn-small" onclick="verFicha('${nombreArchivo}')" style="margin-top:5px; width: 100%;">Ficha</button>
+            </div>
+          </div>
         `;
-
 
         contenedor.innerHTML += fichaHTML;
 
@@ -61,21 +109,85 @@ async function cargarLuchadores() {
   }
 }
 
-// =========================
-// SELECCIONAR LUCHADORES
-// =========================
-function seleccionar(nombre, hp, atk, spd, img) {
-  if (seleccionados.length >= 2) return;
-  seleccionados.push({ nombre, hp, atk, spd, img, maxHp: hp });
-  if (seleccionados.length === 2) iniciarCombate();
+async function verFicha(nombreArchivo) {
+  window.location.hash = `#ficha/${nombreArchivo}`;
 }
 
-// =========================
-// INICIAR COMBATE
-// =========================
+async function mostrarFicha(nombreArchivo) {
+  vistaFicha.innerHTML = 'Cargando...';
+  vistaFicha.style.display = 'block';
+
+  try {
+    const res = await fetch(`personajes/${nombreArchivo}.html?v=` + Date.now());
+    let htmlText = await res.text();
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlText, 'text/html');
+    let fichaContent = doc.querySelector('.contenedor-ficha');
+
+    if (!fichaContent) {
+      // Fallback: Si no hay contenedor, creamos uno con el contenido del body
+      fichaContent = document.createElement('div');
+      fichaContent.className = 'contenedor-ficha';
+      fichaContent.innerHTML = doc.body.innerHTML;
+    } else {
+      // Clonamos para evitar problemas de adopción en algunos navegadores
+      fichaContent = fichaContent.cloneNode(true);
+    }
+
+    // Corregir rutas de imagen
+    const imgs = fichaContent.querySelectorAll('img');
+    imgs.forEach(img => {
+      const src = img.getAttribute('src');
+      if (!src) return;
+      const originalFileName = src.split('/').pop();
+      let fileName = originalFileName;
+
+      if (fileName.toLowerCase().endsWith('.png')) {
+        const base = fileName.split('.')[0].toLowerCase();
+        if (base !== 'arbol' && base !== 'huston') {
+          fileName = fileName.replace(/\.png$/i, '.jpg');
+        }
+      }
+      img.src = `assets/images/characters/${fileName}`;
+    });
+
+    vistaFicha.innerHTML = '';
+    const btnVolver = document.createElement('button');
+    btnVolver.classList.add('btn-arcade', 'btn-secondary');
+    btnVolver.innerText = '⬅ Volver al Ring';
+    btnVolver.onclick = () => window.location.hash = '';
+    btnVolver.style.marginBottom = '20px';
+    btnVolver.style.display = 'block';
+
+    vistaFicha.appendChild(btnVolver);
+    vistaFicha.appendChild(fichaContent);
+
+  } catch (err) {
+    vistaFicha.innerHTML = '<p>Error cargando la ficha.</p><button onclick="window.location.hash=\'\'">Volver</button>';
+    console.error(err);
+  }
+}
+
+function seleccionar(nombre, hp, atk, spd, img, btn) {
+  if (seleccionados.length >= 2) return;
+
+  // FEEDBACK DE SELECCIÓN: Cambia color y texto del botón al instante
+  if (btn) {
+    btn.classList.add('btn-selected');
+    btn.innerText = 'Seleccionado';
+  }
+
+  seleccionados.push({ nombre, hp, atk, spd, img, maxHp: hp });
+
+  if (seleccionados.length === 2) {
+    // Retraso para que el usuario aprecie la selección antes del cambio de pantalla
+    setTimeout(() => iniciarCombate(), 300);
+  }
+}
+
 function iniciarCombate() {
-  contenedor.style.display = 'none';
-  pantalla.style.display = 'block';
+  window.location.hash = '#combate';
   log.innerHTML = '';
 
   // Ordenar por velocidad
@@ -89,6 +201,8 @@ function iniciarCombate() {
   actualizarBarra(p1, 1);
   actualizarBarra(p2, 2);
 
+  if (pelea) clearInterval(pelea);
+
   pelea = setInterval(() => {
     atacar(p1, p2, 2);
     if (p2.hp <= 0) { fin(p1); return; }
@@ -99,61 +213,57 @@ function iniciarCombate() {
   }, 1000);
 }
 
-// =========================
-// CREAR VISOR DEL LUCHADOR
-// =========================
 function crearVisor(p, n) {
   return `
-    <div style="background:rgba(0, 0, 0, 0.5); border-radius:10px; padding:10px;">
-      <h3>${p.nombre}</h3>
-      <img src="${p.img}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;"><br>
-      <div class="barra">
+      <h3 style="margin-top:0; color:#ffcc00; font-size: 1.2em;">${p.nombre}</h3>
+      <img id="img-luchador-${n}" src="${p.img}" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 2px solid #555; margin: 10px auto;">
+      <div class="barra" style="width: 120px;">
         <div id="vida${n}" class="vida"></div>
       </div>
-      <p>HP: <span id="hp${n}">${p.hp}</span></p>
-    </div>
+      <p style="margin: 10px 0 0 0; font-weight:bold; font-size: 1.1em;">HP: <span id="hp${n}">${p.hp}</span></p>
   `;
 }
 
-// =========================
-// ATAQUE
-// =========================
 function atacar(a, d, n) {
-  const dmg = Math.max(5, a.atk + Math.floor(d.spd / 4));
+  const dmg = Math.max(5, a.atk - Math.floor(d.spd / 4));
   d.hp -= dmg;
-  document.getElementById(`hp${n}`).innerText = Math.max(0, d.hp);
+  const el = document.getElementById(`hp${n}`);
+  if (el) el.innerText = Math.max(0, d.hp);
+
+  // DISPARO DE ANIMACIONES: Se aplican clases CSS de lunge y shake
+  const idAtacante = (n === 1) ? 2 : 1;
+  const imgAtacante = document.getElementById(`img-luchador-${idAtacante}`);
+  const imgDefensor = document.getElementById(`img-luchador-${n}`);
+
+  if (imgAtacante) {
+    imgAtacante.classList.add(`animacion-ataque-p${idAtacante}`);
+    setTimeout(() => imgAtacante.classList.remove(`animacion-ataque-p${idAtacante}`), 800);
+  }
+
+  if (imgDefensor) {
+    imgDefensor.classList.add('animacion-golpe');
+    setTimeout(() => imgDefensor.classList.remove('animacion-golpe'), 800);
+  }
+
   actualizarBarra(d, n);
   log.innerHTML += `${a.nombre} ataca (-${dmg})<br>`;
   log.scrollTop = log.scrollHeight;
 }
 
-// =========================
-// ACTUALIZAR BARRA DE VIDA
-// =========================
 function actualizarBarra(p, n) {
   const pct = Math.max(0, (p.hp / p.maxHp) * 100);
   const b = document.getElementById(`vida${n}`);
-  b.style.width = pct + '%';
-  b.style.background = pct < 30 ? 'red' : pct < 60 ? 'orange' : 'limegreen';
+  if (b) {
+    b.style.width = pct + '%';
+    b.style.background = pct < 30 ? 'red' : pct < 60 ? 'orange' : 'limegreen';
+  }
 }
 
-// =========================
-// FIN DEL COMBATE
-// =========================
 function fin(ganador) {
   clearInterval(pelea);
   log.innerHTML += `<strong>🏆 GANA ${ganador.nombre}</strong><br><br>`;
-  // No añadimos ningún botón, solo el mensaje
 }
 
-// =========================
-// REINICIAR COMBATE
-// =========================
 function reiniciar() {
-  location.reload();
+  window.location.reload();
 }
-
-// =========================
-// CARGAR LUCHADORES AL INICIAR PÁGINA
-// =========================
-window.onload = cargarLuchadores;
