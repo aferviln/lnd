@@ -231,17 +231,17 @@ button:active,
 
     25% {
         transform: translateX(-15px);
-        filter: brightness(1.2) sepia(1) saturate(5) hue-rotate(-50deg);
+        filter: brightness(1.5) sepia(1) saturate(20) hue-rotate(-55deg) drop-shadow(0 0 10px red);
     }
 
     50% {
         transform: translateX(15px);
-        filter: brightness(1.2) sepia(1) saturate(5) hue-rotate(-50deg);
+        filter: brightness(1.5) sepia(1) saturate(20) hue-rotate(-55deg) drop-shadow(0 0 10px red);
     }
 
     75% {
         transform: translateX(-15px);
-        filter: brightness(1.2) sepia(1) saturate(5) hue-rotate(-50deg);
+        filter: brightness(1.5) sepia(1) saturate(20) hue-rotate(-55deg) drop-shadow(0 0 10px red);
     }
 
     100% {

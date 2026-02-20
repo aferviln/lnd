@@ -204,13 +204,19 @@ function iniciarCombate() {
   if (pelea) clearInterval(pelea);
 
   pelea = setInterval(() => {
+    // Primer atacante
     atacar(p1, p2, 2);
     if (p2.hp <= 0) { fin(p1); return; }
 
-    atacar(p2, p1, 1);
-    if (p1.hp <= 0) { fin(p2); }
+    // El segundo atacante espera 500ms para que no se solapen las animaciones
+    setTimeout(() => {
+      if (pelea) { // Verificar que el combate no haya terminado ya
+        atacar(p2, p1, 1);
+        if (p1.hp <= 0) { fin(p2); }
+      }
+    }, 500);
 
-  }, 1000);
+  }, 1200); // Un poco más de tiempo para que de tiempo a todo
 }
 
 function crearVisor(p, n) {
